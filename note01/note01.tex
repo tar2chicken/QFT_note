@@ -1,0 +1,50 @@
+\documentclass[uplatex,dvipdfmx]{jsarticle}
+\usepackage{amsmath,amssymb}
+\usepackage{color}
+\usepackage{hyperref}
+\usepackage{physics}
+\usepackage{subfiles}
+\usepackage{tcolorbox}
+\allowdisplaybreaks[4]
+\counterwithin{equation}{section}
+\hypersetup{colorlinks=true}
+\pagestyle{myheadings}
+\tcbuselibrary{breakable}
+\newcommand{\E}{\mathrm{e}}
+\newcommand{\I}{\mathrm{i}}
+\title{QFTまとめ1 : 自由な物質場の正準量子化}
+\author{齋藤 駆}
+\date{\today}
+
+\newenvironment{katei}{
+    \begin{tcolorbox}[
+        breakable=true,
+        colback=cyan!3!white,
+        colframe=cyan
+    ]
+}{
+    \end{tcolorbox}
+}
+\newenvironment{kekka}{
+    \begin{tcolorbox}[
+        breakable=true,
+        colback=orange!5!white,
+        colframe=orange
+    ]
+}{
+    \end{tcolorbox}
+}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+\begin{abstract}
+    これは, 4次元Minkowski時空における自由な物質場の正準量子化についてのノートである.
+    内容は, どんな場の理論の教科書にも一番最初に書いてあるような基本的なことだが, それでもわざわざ書くのには主に2つの目的があるからである:
+    (1)人によりがちなLorentz群の表現の表記を自分の中で統一すること.(2)簡略化されがちなフェルミオンの量子化をDirac括弧を使って厳密に行うこと.
+\end{abstract}
+\tableofcontents
+\clearpage
+\subfile{section01/section01.tex}
+
+\end{document}

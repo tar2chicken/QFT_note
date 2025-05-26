@@ -1,0 +1,190 @@
+\documentclass[../note01.tex]{subfiles}
+\setcounter{section}{0}
+
+\begin{document}
+\section{実スカラー場}
+自由な実スカラー場を考える.
+\begin{align}\label{Lagrangian}
+    L = \int\dd[3]{x} \mathcal{L}, \qquad
+    \mathcal{L} = \frac{1}{2}\dot{\phi}^2 -\frac{1}{2}(\nabla\phi)^2 -\frac{1}{2}m^2\phi^2.
+\end{align}
+ここで, 計量を
+\begin{align}
+    g_{\mu\nu} = \mathrm{diag} (-1,1,1,1)
+\end{align}
+とすると, Lagrangian密度は
+\begin{align}
+    \mathcal{L} = -\frac{1}{2}\partial^\mu\phi\partial_\mu\phi - \frac{1}{2}m^2\phi^2
+\end{align}
+と書ける. この章の大雑把な流れは次のとおりである.
+\begin{enumerate}
+    \item \textbf{古典的に運動方程式を解く.}
+    \item \textbf{正準量子化する.}
+    \item \textbf{エネルギー固有状態を構成する.}
+\end{enumerate}
+他の章でも主にこの流れで進み, 必要に応じて数学的な準備をする.
+
+\subsection{古典論}
+この節では, 正準形式で古典的に運動方程式を解いて, 解がモード展開の形で書けることを見る.
+
+まず, $ \phi(x) $ の共役運動量を $ \pi(x) $ とすると,
+\begin{align}\label{conjugate_momentum}
+    \pi(\vb{x}) = \fdv{L[\phi,\dot{\phi}]}{\dot{\phi}(\vb{x})} = \dot{\phi}(\vb{x})
+\end{align}
+である. 分かりやすさのために時間の引数を敢えて書かなかった.
+この理論は3次元空間の各点に1つずつ独立な自由度 $ \phi(\vb{x}) $ を持っていて, Lagrangianはそれらをある時刻において足し合わせたものである.
+有限自由度の力学の場合の定義
+\begin{align*}
+    p_i = \pdv{L(q,\dot{q})}{\dot{q}^i}, \qquad q=(q^1,\dots,q^n)
+\end{align*}
+を思い出すと, 式 \eqref{conjugate_momentum} がその自然な一般化であることがすぐ分かるだろう.
+
+\subsubsection{汎関数微分の定義}
+ここで一応, 汎関数微分の定義を与えておく. 読み飛ばしても構わない.
+一般に, 関数 $ f(x) $ の汎関数 $ I[f] $ に対して, その(1次の)変分は任意の試験関数 $ \delta f(x) $ を使って
+\begin{align}
+    \delta I[f;\delta f] = \left.\dv{t}I[f+t\delta f]\right|_{t=0}
+\end{align}
+で定義される. これ以降, 試験関数は $ \delta $ を付けて表し, 変分の引数には書かないことにする. もしこれが
+\begin{align}
+    \delta I[f] = \int\dd{x} g(x)\delta f(x)
+\end{align}
+と表せるなら, この $ g(x) $ が汎関数微分の定義である.
+\begin{katei}
+    汎関数 $ I[f] $ の変分が
+    \begin{align}
+        \left.\dv{t}I[f+t\delta f]\right|_{t=0} = \int\dd{x} g(x)\delta f(x)
+    \end{align}
+    と表せるとき, \textbf{汎関数微分}とは
+    \begin{align}
+        \fdv{I[f]}{f(x)} = g(x).
+    \end{align}
+    である.
+\end{katei}
+\noindent 例えば, Lagrangian\eqref{Lagrangian}の $ \dot{\phi}(\vb{x}) $ に関する変分は
+\begin{align*}
+    \delta L[\dot{\phi}] = \left.\dv{t} \int\dd[3]{x} \frac{1}{2}\qty(\dot{\phi}+t\delta\dot{\phi})^2\right|_{t=0}
+    = \int\dd[3]{x} \dot{\phi}\delta\dot{\phi}
+\end{align*}
+なので, 式 \eqref{conjugate_momentum} の2番目の等号は正しい. また一般に, 関数 $ f(x) $ 自体を自身の汎関数だと思ったとき,
+\begin{align*}
+    \delta f(y) &= \delta \int\dd{x} \delta(x-y)f(x) \\
+    &= \left.\dv{t} \int\dd{x} \delta(x-y) \qty[f(x)+t\delta f(x)]\right|_{t=0} \\
+    &= \int\dd{x} \delta(x-y)\delta f(x)
+\end{align*}
+より,
+\begin{align}
+    \fdv{f(y)}{f(x)} = \delta(x-y)
+\end{align}
+が成り立つ. 他には, 微分を含む汎関数についても汎関数微分を考えられる. 例えば,
+\begin{align}
+    I[f] = \int\dd{x} \frac{1}{2}f'(x)^2
+\end{align}
+なら
+\begin{align*}
+    \delta I[f] = \left.\dv{t} \int\dd{x} \frac{1}{2} (f'+t\delta f')^2 \right|_{t=0}
+    = \int\dd{x} f'\delta f'
+\end{align*}
+なので, 表面項が無視できるなら部分積分して
+\begin{align}
+    \fdv{I}{f(x)} = -f''(x)
+\end{align}
+となる.
+
+\subsubsection{運動方程式とその解}
+Hamiltonianは
+\begin{align}
+    H[\phi,\pi] &= \int\dd[3]{x} \pi(\vb{x})\dot{\phi}(\vb{x}) -L \notag \\
+    &= \int\dd[3]{x} \qty[\frac{1}{2}\pi^2 + \frac{1}{2}(\nabla\phi)^2 + \frac{1}{2}m^2\phi^2]
+\end{align}
+となる. Poisson括弧は, 同時刻の関数 $ \phi(\vb{x}),\pi(\vb{x}) $ の汎関数 $ f,g $ に対して
+\begin{align}
+    \{f,g\}_\mathrm{P} = \int\dd[3]{z} \qty[\fdv{f}{\phi(\vb{z})}\fdv{g}{\pi(\vb{z})} - (\phi\leftrightarrow\pi)]
+\end{align}
+で定義されるので,
+\begin{align}\label{Poisson_bracket}
+    \{\phi(\vb{x}),\phi(\vb{y})\}_\mathrm{P} = \{\pi(\vb{x}),\pi(\vb{y})\}_\mathrm{P} = 0, \qquad
+    \{\phi(\vb{x}),\pi(\vb{y})\}_\mathrm{P} = \delta^3(\vb{x}-\vb{y})
+\end{align}
+が成り立つ. よって,
+\begin{align*}
+    \{\phi(\vb{x}),H\}_\mathrm{P} &= \int\dd[3]{z} \delta^3(\vb{z}-\vb{x})\pi(\vb{z}) = \pi(\vb{x}), \\
+    \{\pi(\vb{x}),H\}_\mathrm{P} &= -\int\dd[3]{z} \delta^3(\vb{z}-\vb{x})(-\nabla^2\phi + m^2\phi)(\vb{z}) = (\nabla^2-m^2)\phi(\vb{x})
+\end{align*}
+より, 運動方程式は
+\begin{align}
+    \dot{\phi}(x)=\pi(x), \qquad \dot{\pi}(x)=(\nabla^2-m^2)\phi(x),
+\end{align}
+つまり, \textbf{Klein-Gordon方程式}
+\begin{align}\label{KG-eq}
+    (-\partial^2+m^2)\phi(x)=0
+\end{align}
+となる. この一般解はすぐに求まる. 特に $ \phi^*(x)=\phi(x) $ に注意する.
+\begin{katei}
+    運動方程式\eqref{KG-eq}の解は, 時間によらない任意の複素数値関数$ a(\vb{k}) $ を用いて
+    \begin{align}
+        \phi(x) = \int\widetilde{\dd{k}} \qty[a(\vb{k})\E^{\I kx} + a^*(\vb{k})\E^{-\I kx}], \qquad
+        \widetilde{\dd{k}} := \frac{\dd[3]{k}}{(2\pi)^3 2\omega}, \qquad
+        k^0 = \omega := \sqrt{\vb{k}^2+m^2}
+    \end{align}
+    と書ける.
+\end{katei}
+最後に, 各モード $ a(\vb{k}) $ が $ \phi(x) $ を使ってどう書けるかを見る. 先に微分記号を定義する.
+\begin{align}
+    f\overset{\leftrightarrow}{\partial} g = f\partial g - (\partial f)g.
+\end{align}
+$ k^0=\omega $ として, 次を計算してみる.
+\begin{align*}
+    &\quad\;\I\int\dd[3]{x} \E^{-\I kx}\overset{\leftrightarrow}{\partial}_0\phi(x) \\
+    &= \I\int\dd[3]{x} \E^{-\I kx}\overset{\leftrightarrow}{\partial}_0 \int\widetilde{\dd{k'}} \qty[a(\vb{k}')\E^{\I k'x} + a^*(\vb{k}')\E^{-\I k'x}] \\
+    &= \I\E^{\I\omega t}\overset{\leftrightarrow}{\partial}_0 \int\widetilde{\dd{k}'} \qty[a(\vb{k}')\E^{-\I\omega't} + a^*(-\vb{k}')\E^{\I\omega't}] \int\dd[3]{x}\E^{-\I(\vb{k}-\vb{k}')\vb{x}} \\
+    &= \I\E^{\I\omega t}\overset{\leftrightarrow}{\partial}_0 \frac{1}{2\omega} \qty[a(\vb{k})\E^{-\I\omega t} + a^*(-\vb{k})\E^{\I\omega t}] \\
+    &= \frac{\I\E^{\I\omega t}}{2\omega} \qty[(-\I\omega-\I\omega)a(\vb{k})\E^{-\I\omega t} + (\I\omega-\I\omega)a^*(\vb{-k})\E^{\I\omega t}] \\
+    &= a(\vb{k}).
+\end{align*}
+\begin{kekka}
+    $ \phi(x) $ のFourierモードは, $ \phi(x) $ から
+    \begin{align}\label{mode}
+        a(\vb{k}) = \I\int\dd[3]{x} \E^{-\I kx}\overset{\leftrightarrow}{\partial}_0\phi(x), \qquad k^0=\omega
+    \end{align}
+    で得られる.
+\end{kekka}
+
+\subsection{正準量子化}
+次のようにして理論を正準量子化する.
+\begin{katei}
+    場 $ \phi(x) $ を演算子として再解釈し, 同時刻交換関係をPoisson括弧\eqref{Poisson_bracket}の $\I$ 倍で定義する.
+    \begin{align}
+        [\phi(t,\vb{x}),\phi(t,\vb{x}')] = [\pi(t,\vb{x}),\pi(t,\vb{x}')] = 0, \qquad
+        [\phi(t,\vb{x}),\pi(t,\vb{x}')]=\I\delta^3(\vb{x}-\vb{x}').
+    \end{align}
+    特に今の場合, $ \phi(x) $ はHermite演算子であると仮定する.
+    \begin{align}
+        \phi^\dagger(x) = \phi(x).
+    \end{align}
+\end{katei}
+\noindent このとき, Fourierモードの表式\eqref{mode}から, $ a^*(\vb{k}) $ は $ a^\dagger(\vb{k}) $ で置き換えられることが分かる.
+次に, $ \phi(x),\pi(x) $ の交換関係から $ a(\vb{k}),a^\dagger(\vb{k}) $ の交換関係を計算する.
+\begin{align*}
+    [a(\vb{k}),a^\dagger(\vb{k}')] &= \qty[\I\int\dd[3]{x} \E^{\I\omega t}\E^{-\I\vb{k}\vb{x}} \Bigl(\pi(t,\vb{x})-\I\omega\phi(t,\vb{x})\Bigr), -\I\int\dd[3]{x'} \E^{-\I\omega't}\E^{\I\vb{k}'\vb{x}'} \Bigl(\pi(t,\vb{x}')+\I\omega'\phi(t,\vb{x}')\Bigr)] \\
+    &= \E^{\I(\omega-\omega')t} \int\dd[3]{x}\E^{-\I\vb{k}\vb{x}} \int\dd[3]{x'}\E^{\I\vb{k}'\vb{x}'} \Bigl(\I\omega'[\pi(t,\vb{x}),\phi(t,\vb{x}')] - \I\omega[\phi(t,\vb{x}),\pi(t,\vb{x}')]\Bigr) \\
+    &= \E^{\I(\omega-\omega')t} \int\dd[3]{x}\E^{-\I\vb{k}\vb{x}} \int\dd[3]{x'}\E^{\I\vb{k}'\vb{x}'} (\omega'+\omega)\delta^3(\vb{x}-\vb{x}') \\
+    &= \E^{\I(\omega-\omega')t} \int\dd[3]{x}\E^{-\I(\vb{k}-\vb{k}')\vb{x}} (\omega'+\omega) \\
+    &= (2\pi)^3 2\omega \delta^3(\vb{k}-\vb{k}'), \\
+    [a(\vb{k}),a(\vb{k}')] &= \qty[\I\int\dd[3]{x} \E^{\I\omega t}\E^{-\I\vb{k}\vb{x}} \Bigl(\pi(t,\vb{x})-\I\omega\phi(t,\vb{x})\Bigr), \I\int\dd[3]{x'} \E^{\I\omega't}\E^{-\I\vb{k}'\vb{x}'} \Bigl(\pi(t,\vb{x}')-\I\omega'\phi(t,\vb{x}')\Bigr)] \\
+    &= -\E^{\I(\omega+\omega')t} \int\dd[3]{x}\E^{-\I\vb{k}\vb{x}} \int\dd[3]{x'}\E^{-\I\vb{k}'\vb{x}'} \Bigl(-\I\omega'[\pi(t,\vb{x}),\phi(t,\vb{x}')] - \I\omega[\phi(t,\vb{x}),\pi(t,\vb{x}')]\Bigr) \\
+    &= -\E^{\I(\omega+\omega')t} \int\dd[3]{x}\E^{-\I\vb{k}\vb{x}} \int\dd[3]{x'}\E^{-\I\vb{k}'\vb{x}'} (-\omega'+\omega)\delta^3(\vb{x}-\vb{x}') \\
+    &= \E^{\I(\omega+\omega')t} \int\dd[3]{x}\E^{-\I(\vb{k}+\vb{k}')\vb{x}} (\omega'-\omega) \\
+    &= 0.
+\end{align*}
+\begin{kekka}
+    $ a(\vb{k}),a^\dagger(\vb{k}) $ は交換関係
+    \begin{align}
+        [a(\vb{k}),a^\dagger(\vb{k}')] = (2\pi)^3 2\omega\delta^3(\vb{k}-\vb{k}'),\qquad [a(\vb{k}),a(\vb{k}')]=[a^\dagger(\vb{k}),a^\dagger(\vb{k}')]=0
+    \end{align}
+    を満たす.
+\end{kekka}
+
+\subsection{スペクトル}
+
+\end{document}
