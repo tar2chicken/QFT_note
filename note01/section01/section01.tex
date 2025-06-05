@@ -5,7 +5,7 @@
 \section{実スカラー場}
 自由な実スカラー場を考える.
 \begin{align}\label{Lagrangian}
-    L = \int\dd[3]{x} \mathcal{L}, \qquad
+    S=\int\dd{t}L, \qquad L = \int\dd[3]{x} \mathcal{L}, \qquad
     \mathcal{L} = \frac{1}{2}\dot{\phi}^2 -\frac{1}{2}(\nabla\phi)^2 -\frac{1}{2}m^2\phi^2.
 \end{align}
 ここで, 計量を
@@ -23,7 +23,6 @@
     \item \textbf{エネルギー固有状態を構成する.}
 \end{enumerate}
 他の章でも主にこの流れで進み, 必要に応じて数学的な準備をする.
-
 \subsection{古典論}
 この節では, 正準形式で古典的に運動方程式を解いて, 解がモード展開の形で書けることを見る.
 
@@ -38,28 +37,27 @@
     p_i = \pdv{L(q,\dot{q})}{\dot{q}^i}, \qquad q=(q^1,\dots,q^n)
 \end{align*}
 を思い出すと, 式 \eqref{conjugate_momentum} がその自然な一般化であることがすぐ分かるだろう.
-
 \subsubsection{汎関数微分の定義}
 ここで一応, 汎関数微分の定義を与えておく. 読み飛ばしても構わない.
-一般に, 関数 $ f(x) $ の汎関数 $ I[f] $ に対して, その(1次の)変分は任意の試験関数 $ \delta f(x) $ を使って
-\begin{align}
-    \delta I[f;\delta f] = \left.\dv{t}I[f+t\delta f]\right|_{t=0}
-\end{align}
-で定義される. これ以降, 試験関数は $ \delta $ を付けて表し, 変分の引数には書かないことにする. もしこれが
-\begin{align}
-    \delta I[f] = \int\dd{x} g(x)\delta f(x)
-\end{align}
-と表せるなら, この $ g(x) $ が汎関数微分の定義である.
+一般に, 関数 $ f(x) $ の汎関数 $ I[f] $ を考えて, $ I[f+g] $ を $ f $ まわりでTaylor展開しようとすると
+\begin{align*}
+    I[f+g] = I[f] + \int\dd{x}\fdv{I[f]}{f(x)}g(x) + \frac{1}{2}\int\dd{x}\dd{y}\frac{\delta^2 I[f]}{\delta f(x)\delta f(y)}g(x)g(y) + \cdots
+\end{align*}
+となるだろう. つまり, (1階の)汎関数微分を得るには1次の項だけ見ればよく, それは
+\begin{align*}
+    \int\dd{x}\fdv{I[f]}{f(x)}g(x) = \left.\dv{\epsilon}I[f+\epsilon g]\right|_{\epsilon=0}
+\end{align*}
+で得られる.
 \begin{katei}
-    汎関数 $ I[f] $ の変分が
+    $ \delta f(x) $ を任意関数とする. 汎関数 $ I[f] $ に対して
     \begin{align}
-        \left.\dv{t}I[f+t\delta f]\right|_{t=0} = \int\dd{x} g(x)\delta f(x)
+        \delta I[f] := \left.\dv{\epsilon}I[f+\epsilon\delta f]\right|_{\epsilon=0}
     \end{align}
-    と表せるとき, \textbf{汎関数微分}とは
+    を(1次の)\textbf{変分}といい, これを用いて(1階の)\textbf{汎関数微分} $ \delta I/\delta f(x) $ を
     \begin{align}
-        \fdv{I[f]}{f(x)} = g(x).
+        \delta I[f] =: \int\dd{x} \fdv{I}{f(x)} \delta f(x)
     \end{align}
-    である.
+    で定義する. 汎関数微分は, 関数の引数の逆数の次元を持つことに注意する.
 \end{katei}
 \noindent 例えば, Lagrangian\eqref{Lagrangian}の $ \dot{\phi}(\vb{x}) $ に関する変分は
 \begin{align*}
@@ -73,22 +71,22 @@
     &= \int\dd{x} \delta(x-y)\delta f(x)
 \end{align*}
 より,
-\begin{align}
+\begin{align*}
     \fdv{f(y)}{f(x)} = \delta(x-y)
-\end{align}
+\end{align*}
 が成り立つ. 他には, 微分を含む汎関数についても汎関数微分を考えられる. 例えば,
-\begin{align}
+\begin{align*}
     I[f] = \int\dd{x} \frac{1}{2}f'(x)^2
-\end{align}
+\end{align*}
 なら
 \begin{align*}
     \delta I[f] = \left.\dv{t} \int\dd{x} \frac{1}{2} (f'+t\delta f')^2 \right|_{t=0}
     = \int\dd{x} f'\delta f'
 \end{align*}
 なので, 表面項が無視できるなら部分積分して
-\begin{align}
+\begin{align*}
     \fdv{I}{f(x)} = -f''(x)
-\end{align}
+\end{align*}
 となる.
 
 \subsubsection{運動方程式とその解}
@@ -106,12 +104,13 @@ Hamiltonianは
     \{\phi(\vb{x}),\phi(\vb{y})\}_\mathrm{P} = \{\pi(\vb{x}),\pi(\vb{y})\}_\mathrm{P} = 0, \qquad
     \{\phi(\vb{x}),\pi(\vb{y})\}_\mathrm{P} = \delta^3(\vb{x}-\vb{y})
 \end{align}
-が成り立つ. よって,
+が成り立ち,
 \begin{align*}
     \{\phi(\vb{x}),H\}_\mathrm{P} &= \int\dd[3]{z} \delta^3(\vb{z}-\vb{x})\pi(\vb{z}) = \pi(\vb{x}), \\
     \{\pi(\vb{x}),H\}_\mathrm{P} &= -\int\dd[3]{z} \delta^3(\vb{z}-\vb{x})(-\nabla^2\phi + m^2\phi)(\vb{z}) = (\nabla^2-m^2)\phi(\vb{x})
 \end{align*}
-より, 運動方程式は
+が成り立つ. 2つ目の式では, \textbf{場} $ \phi(\vb{x}) $ \textbf{が遠方} $ \vb{x}\to\infty $ \textbf{で0となることを仮定}して部分積分した.
+よって, 運動方程式は
 \begin{align}
     \dot{\phi}(x)=\pi(x), \qquad \dot{\pi}(x)=(\nabla^2-m^2)\phi(x),
 \end{align}
@@ -131,7 +130,7 @@ Hamiltonianは
 \end{katei}
 最後に, 各モード $ a(\vb{k}) $ が $ \phi(x) $ を使ってどう書けるかを見る. 先に微分記号を定義する.
 \begin{align}
-    f\overset{\leftrightarrow}{\partial} g = f\partial g - (\partial f)g.
+    f\overset{\leftrightarrow}{\partial} g := f\partial g - (\partial f)g.
 \end{align}
 $ k^0=\omega $ として, 次を計算してみる.
 \begin{align*}
@@ -185,6 +184,117 @@ $ k^0=\omega $ として, 次を計算してみる.
     を満たす.
 \end{kekka}
 
-\subsection{スペクトル}
+\subsection{エネルギースペクトル}
+この節では, Noetherの定理を使ってエネルギー運動量テンソルを古典的に求め, 次に量子論で $ a^\dagger(\vb{k}),a(\vb{k}) $ が生成消滅演算子の役割を果たすことを見る.
+\subsubsection{対称性とは何か}
+先に, 古典論における対称性とは何かということを時空並進を例に取って少し考えてみる.
+\begin{align}
+    x' = x + a.
+\end{align}
+$ \phi $ はスカラー場なので, 同一時空点では同じ値を持つように変換する.
+\begin{align}
+    \phi'(x')=\phi(x).
+\end{align}
+ここで, 同一時空点が $ x $ に見える人と $ x' $ に見える人を用意して, 前者をAさん, 後者をBさんと呼ぶことにする.
+この場合, BさんはAさんから $ a $ だけ下がった位置にいることになる.
+もし, この系が考えている変換の対称性を持つことを言いたければ, Aさんから見た物理とBさんから見た物理が同じ, つまり
+\begin{align}
+    S[\phi'] = S[\phi]
+\end{align}
+であることが言えればいいだろう. ただし, Aさんからの見え方とBさんからの見え方が同じならば, 作用の積分範囲も同じでなくてはならないことに注意する. この場合, 実際
+\begin{align*}
+    S[\phi'] &= \int\dd[4]{x} \qty[-\frac{1}{2}(\partial\phi'(x))^2 - \frac{1}{2}m^2\phi'(x)^2] \\
+    &= \int\dd[4]{x'} \qty[-\frac{1}{2}(\partial'\phi'(x'))^2 - \frac{1}{2}m^2\phi'(x')^2] \\
+    &= \int\dd[4]{x} \qty[-\frac{1}{2}(\partial\phi(x))^2 - \frac{1}{2}m^2\phi(x)^2] \\
+    &= S[\phi]
+\end{align*}
+なので, この系が並進対称性を持つことが分かった.
+
+\subsubsection{エネルギー運動量テンソルの導出}
+並進による場の変化を変換のパラメータ $ a^\mu $ で展開すると
+\begin{align*}
+    \phi'(x)-\phi(x) = \phi(x-a)-\phi(x) = -a^\mu\partial_\mu\phi(x)+\order{a^2}
+\end{align*}
+となるので, これを元に
+\begin{align}
+    \delta\phi(x)=-\epsilon^\mu(x)\partial_\mu\phi(x).
+\end{align}
+という関数を考える. ここで, $ \epsilon^\mu(x) $ を $ t\to\pm\infty $ で0になる任意関数とすると, $ \delta\phi(x) $ も同様に$ t\to\pm\infty $ で0になる任意関数となる.
+これを使って作用の変分を取ると,
+\begin{align*}
+    \delta S[\phi] &= \int\dd[4]{x} \qty[-\partial^\mu\phi\partial_\mu\delta\phi - m^2\phi\delta\phi] \\
+    &= \int\dd[4]{x} \qty[-\partial^\mu\phi\partial_\mu(-\epsilon_\nu\partial^\nu\phi) - m^2\phi(-\epsilon_\nu\partial^\nu\phi)] \\
+    &= \int\dd[4]{x} \qty[\partial_\mu\epsilon_\nu\partial^\mu\phi\partial^\nu\phi - \epsilon_\nu\qty(-\partial^\mu\phi\partial_\mu\partial^\nu\phi - m^2\phi\partial^\nu\phi)] \\
+    &= \int\dd[4]{x} \qty[-\epsilon_\nu\partial_\mu(\partial^\mu\phi\partial^\nu\phi) -\epsilon_\nu\partial^\nu\qty(-\frac{1}{2}\partial^\mu\phi\partial_\mu\phi-\frac{1}{2}m^2\phi^2)] \\
+    &= -\int\dd[4]{x} \epsilon_\nu\partial_\mu\qty[\partial^\mu\phi\partial^\nu\phi + \eta^{\mu\nu}\mathcal{L}]
+\end{align*}
+となる. 4つ目の等号では, $ \epsilon^\mu(x) $ のおかげで時間に関する部分積分も行えた.
+ここで, 最小作用の原理から, 運動方程式を満たす場 $ \phi(x) $ は $ \delta S[\phi]=0 $ を満たすので, $ \epsilon^\mu(x) $ の $ -\infty<t<\infty $ での任意性によって次が言える.
+\begin{kekka}
+    運動方程式を満たす場 $ \phi(x) $ は
+    \begin{align}\label{EMT}
+        \partial_\mu T^{\mu\nu}=0, \qquad T^{\mu\nu} = \partial^\mu\phi\partial^\nu\phi + \eta^{\mu\nu}\mathcal{L}
+    \end{align}
+    を満たす. この $ T^{\mu\nu} $ を(正準)\textbf{エネルギー運動量テンソル}という.
+\end{kekka}
+
+\subsubsection{スペクトルの計算}
+量子論に移る.
+\begin{katei}
+    量子論でもエネルギー運動量テンソルをそのまま\eqref{EMT}で定義し, 4元運動量の演算子を
+    \begin{align}
+        P^\mu = \int\dd[3]{x}T^{0\mu}
+    \end{align}
+    とする.
+\end{katei}
+\noindent このとき, $ P^\mu $ を $ a^\dagger(\vb{k}),a(\vb{k}) $ で展開すると,
+\begin{align*}
+    P^0 &= \int\dd[3]{x} T^{00} = \int\dd[3]{x} (\dot{\phi}-\mathcal{L}) \qquad (= H) \\
+    &= \frac{1}{2}\int\dd[3]{x} \qty[\dot{\phi}^2 + (\nabla\phi)^2 + m^2\phi^2] \\
+    &= \frac{1}{2}\int\dd[3]{x} \qty[\dot{\phi}^2 + \phi(-\nabla^2+m^2)\phi] \\
+    &= \frac{1}{2}\int\dd[3]{x}\widetilde{\dd{k}}\widetilde{\dd{k'}} \biggl\{\I\omega\Bigl[a(\vb{k})\E^{-\I\omega t} - a^\dagger(-\vb{k})\E^{\I\omega t}\Bigr] \cdot \I\omega'\qty[a(-\vb{k}')\E^{-\I\omega't} - a^\dagger(\vb{k}')\E^{\I\omega't}] \\
+    &\qquad \Bigl[a(\vb{k})\E^{-\I\omega t} + a^\dagger(-\vb{k})\E^{\I\omega t}\Bigr] \cdot (\vb{k}'^2+m^2) \qty[a(-\vb{k}')\E^{-\I\omega't} + a^\dagger(\vb{k}')\E^{\I\omega't}]\biggr\} \E^{\I(\vb{k}-\vb{k}')\vb{x}} \\
+    &= \frac{1}{2}\int\widetilde{\dd{k}}\frac{1}{2\omega} \cdot \omega^2 \Bigl\{-\qty[a(\vb{k})\E^{-\I\omega t} - a^\dagger(-\vb{k})\E^{\I\omega t}] \qty[a(-\vb{k})\E^{-\I\omega t} - a^\dagger(\vb{k})\E^{\I\omega t}] \\
+    &\hspace{32.5mm} \qty[a(\vb{k})\E^{-\I\omega t} + a^\dagger(-\vb{k})\E^{\I\omega t}] \qty[a(-\vb{k})\E^{-\I\omega t} + a^\dagger(\vb{k})\E^{\I\omega t}]\Bigr\} \\
+    &= \frac{1}{2}\int\widetilde{\dd{k}}\; \omega \qty[a(\vb{k})a^\dagger(\vb{k}) + a^\dagger(\vb{k})a(\vb{k})] \\
+    &= \frac{1}{2}\int\widetilde{\dd{k}}\; \omega \qty[2a^\dagger(\vb{k})a(\vb{k}) + (2\pi)^3 2\omega\delta^3(\vb{k}=0)] \\
+    &= \int\widetilde{\dd{k}}\; \omega a^\dagger(\vb{k})a(\vb{k}) + \int\frac{\dd[3]{x}\dd[3]{k}}{(2\pi)^3} \frac{\omega}{2}, \\
+    P^i &= \int\dd[3]{x} T^{0i} = -\int\dd[3]{x} \dot{\phi}\partial_i\phi \\
+    &= -\int\dd[3]{x}\widetilde{\dd{k}}\widetilde{\dd{k'}}\; \qty(-\I\omega) \Bigl[a(\vb{k})\E^{-\I\omega t} - a^\dagger(-\vb{k})\E^{\I\omega t}\Bigr] \cdot \qty(-\I k'^i)\qty[a(-\vb{k}')\E^{-\I\omega't} + a^\dagger(\vb{k}')\E^{\I\omega't}] \E^{\I(\vb{k}-\vb{k}')\vb{x}} \\
+    &= \int\widetilde{\dd{k}} \frac{1}{2\omega} \cdot \omega k^i \qty[a(\vb{k})\E^{-\I\omega t} - a^\dagger(-\vb{k})\E^{\I\omega t}] \qty[a(-\vb{k})\E^{-\I\omega t} + a^\dagger(\vb{k})\E^{\I\omega t}] \\
+    &= \frac{1}{2}\int\widetilde{\dd{k}}\; k^i \qty[a(\vb{k})a^\dagger(\vb{k}) - a^\dagger(-\vb{k})a(-\vb{k})] \\
+    &= \frac{1}{2}\int\widetilde{\dd{k}}\; k^i \qty[a(\vb{k})a^\dagger(\vb{k}) + a^\dagger(\vb{k})a(\vb{k})] \\
+    &= \int\widetilde{\dd{k}}\; k^i a^\dagger(\vb{k})a(\vb{k})
+\end{align*}
+となるので, $ P^\mu $ と $ a^\dagger(\vb{k}),a(\vb{k}) $ の交換関係は, $ k^0=\omega $ として,
+\begin{align*}
+    \qty[P^\mu,a^\dagger(\vb{k})] &= \int\widetilde{\dd{k'}}\; k'^\mu [a^\dagger(\vb{k}')a(\vb{k}'),a^\dagger(\vb{k})] \\
+    &= \int\widetilde{\dd{k'}}\; k'^\mu a^\dagger(\vb{k}')\; (2\pi)^3 2\omega' \delta^3(\vb{k}'-\vb{k}) \\
+    &= k^\mu a^\dagger(\vb{k}), \\
+    \qty[P^\mu,a(\vb{k})] &= -\qty[P^\mu,a^\dagger(\vb{k})]^\dagger \\
+    &= -k^\mu a(\vb{k})
+\end{align*}
+となる.
+\begin{kekka}
+    4元運動量 $ P^\mu $ は, c数を除いて
+    \begin{align}
+        P^\mu = \int\widetilde{\dd{k}}\; k^\mu a^\dagger\vb(\vb{k})a(\vb{k}), \qquad k^0 = \omega
+    \end{align}
+    と書けて,
+    \begin{align}
+        \qty[P^\mu,a^\dagger(\vb{k})] = k^\mu a^\dagger(\vb{k}), \qquad \qty[P^\mu,a(\vb{k})] = -k^\mu a(\vb{k}), \qquad k^0=\omega
+    \end{align}
+    を満たすので, $ a^\dagger(\vb{k}),a(\vb{k}) $ は $ P^\mu $ の固有値を $ k^\mu $ だけそれぞれ上げ下げする.
+    よって, $ a^\dagger(\vb{k}),a(\vb{k}) $ はそれぞれ\textbf{生成消滅演算子}であり, 真空 $ \ket{0} $ を
+    \begin{align}
+        P^\mu\ket{0} = 0 \qquad\text{かつ}\qquad \forall\vb{k}, \; a(\vb{k})\ket{0} = 0
+    \end{align}
+    な状態として定義すると, 4元運動量の固有状態は
+    \begin{alignat*}{2}
+        \text{基底状態}&\quad \ket{0} & &\quad :\quad P^\mu\ket{0} = 0 \\
+        \text{1粒子状態}&\quad \ket{\vb{k}} = a^\dagger(\vb{k})\ket{0} & &\quad :\quad P^\mu\ket{\vb{k}} = k^\mu\ket{\vb{k}},\; k^0=\omega 
+    \end{alignat*}
+    などである.
+\end{kekka}
 
 \end{document}
